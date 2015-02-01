@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.whatisthis.bryceandfriends.pandoraspantry" >
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/door"
@@ -28,14 +29,22 @@
         <activity
             android:name=".Settings"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.whatisthis.bryceandfriends.pandoraspantry.MainActivity"/>
+                android:value="com.whatisthis.bryceandfriends.pandoraspantry.MainActivity" />
         </activity>
         <activity
             android:name=".RecipeBrowse"
             android:label="@string/title_activity_recipe_browse"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.whatisthis.bryceandfriends.pandoraspantry.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ReadingTxtFile"
+            android:label="@string/title_activity_reading_txt_file"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

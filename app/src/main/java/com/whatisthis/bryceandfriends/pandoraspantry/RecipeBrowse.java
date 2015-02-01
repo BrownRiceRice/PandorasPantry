@@ -17,8 +17,10 @@ import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
 import android.widget.GridView;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -35,14 +37,19 @@ public class RecipeBrowse extends ActionBarActivity {
         Intent intent= getIntent();
 
         list= (ArrayList<String>) intent.getSerializableExtra("LIST");
-        Log.d(TAG, "Got into Recipe Browse:  List is: " + list.toString());
+//        Log.d(TAG, "Got into Recipe Browse:  List is: " + list.toString());
        // ViewGroup group = (ViewGroup)getLayoutInflater().inflate(R.id.relLayout);
         GridView gridView = (GridView)findViewById(R.id.gridView);
         gridView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, final View v, int position, long id){
-                lookAtRecipe(parent, v, position, id);
+                try {
+                    lookAtRecipe(parent, v, position, id);
+                }
+                catch(IOException ex){
+                    Log.d(TAG, ex.toString());
+                }
             }
         });
     }
@@ -56,11 +63,15 @@ public class RecipeBrowse extends ActionBarActivity {
     public void lookAtRecipe(AdapterView<?> parent, View v, int position, long id)throws IOException {
         Log.d(TAG, "Trying to look at recipe:  "+ parent.getItemAtPosition(position));
         String ret = (String)parent.getItemAtPosition(position);
-        File blah = new File(this.getAssets().+""+ret+".txt");
-        Log.d(TAG, "Made the file rep of the recipe!: "+ blah.getAbsolutePath().toString());
-        Intent i= new Intent();
-        i.setDataAndType(Uri.fromFile(blah), "text/plain");
-        i.putExtra("STREAM,", (Serializable)this.getAssets().open("/txtLists/"+ ret+".txt"));
+        //ret = ret.replace(" ", "\\ ");
+        //Log.d(TAG, "Made the file rep of the recipe!: "+ blah.getAbsolutePath().toString());
+        Intent i= new Intent(this, ReadingTxtFile.class);
+     //   i.setDataAndType(Uri.fromFile(blah), "text/plain")
+     //   String test = this.getAssets().list("")[3];
+     //   File the= new File(test);
+      //  for(File item: the.listFiles())
+      //      Log.d(TAG, item.toString());
+        i.putExtra("BOOK",ret);
         startActivity(i);
     }
 

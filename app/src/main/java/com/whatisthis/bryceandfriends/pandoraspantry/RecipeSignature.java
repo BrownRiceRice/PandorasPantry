@@ -165,7 +165,7 @@ public class RecipeSignature implements Comparable<RecipeSignature> {
     // 2. Edit distance.
     // if two recipes tie in 1, use # of votes.
     public void updateScore(SparseArray fridgeList) {
-        if (ingList.getLength() == 0)
+        if (ingList.getLength() < 2)
             score = 0;
         else if (contains(fridgeList))
             score = 5000;

@@ -11,12 +11,12 @@ import java.util.regex.Pattern;
 public class Main {
 
     public static String[] startRecp(ArrayList<String> list, BufferedReader read) throws IOException {
-        RecipeSignature[] listTests = new RecipeSignature[300];
+        RecipeSignature[] listTests = new RecipeSignature[600];
         System.out.println(-1);
         ArrayList<String> recipeData = parseBook(read); //new File("./book.txt"));
 
         System.out.println("0");
-        for (int i = 0; i < 300; i++) {
+        for (int i = 0; i < 600; i++) {
             if (i == 1000)
                 System.out.println("0.3");
             if (i == 2000)
@@ -111,7 +111,7 @@ public class Main {
                                     myrecipe = myrecipe + titleMatch.group(1) + "\n";
                                     count ++;
                                     if (count % 100 == 0)
-                                        System.out.println(count);
+                                   //     System.out.println(count);
                                     if (count > 2522)
                                         break;
                                     nextLine = readData.readLine();
