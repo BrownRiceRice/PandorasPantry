@@ -1,7 +1,6 @@
 package com.whatisthis.bryceandfriends.pandoraspantry;
+
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +12,7 @@ public class Main {
     public static String[] startRecp(ArrayList<String> list, BufferedReader read) throws IOException {
         RecipeSignature[] listTests = new RecipeSignature[600];
         System.out.println(-1);
-        ArrayList<String> recipeData = parseBook(read); //new File("./book.txt"));
+        ArrayList<String> recipeData = parseBook(read);
 
         System.out.println("0");
         for (int i = 0; i < 600; i++) {
@@ -41,7 +40,7 @@ public class Main {
     }
 
     /**
-     * Given list of things, return list of recipe names.
+     * Given list of ingredients, return list of recipe names.
      */
     public static String[] findRecipes (ArrayList<String> ingredients, RecipeSignature[] recipes) {
         // Total ingredient list

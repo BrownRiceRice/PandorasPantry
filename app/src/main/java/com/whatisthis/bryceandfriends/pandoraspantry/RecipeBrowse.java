@@ -1,34 +1,30 @@
 package com.whatisthis.bryceandfriends.pandoraspantry;
 
-import android.content.Context;
+import static com.whatisthis.bryceandfriends.pandoraspantry.MainActivity.EXTRA_LIST;
+
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.internal.view.menu.MenuView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridLayout;
 import android.widget.GridView;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.util.ArrayList;
-
 
 public class RecipeBrowse extends ActionBarActivity {
 
+    // intent extra that is passed to ReadingTxtFile
+    static final String EXTRA_BOOK = "com.bryceandfriends.extras.BOOK";
+    static final String LIST_KEY = "LIST";
+
     private static final String TAG = "RECIPE_BROWSE";
-    ArrayList<String> list;
+    private ArrayList<String> list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,16 +32,26 @@ public class RecipeBrowse extends ActionBarActivity {
 
         Intent intent= getIntent();
 
-        list= (ArrayList<String>) intent.getSerializableExtra("LIST");
-//        Log.d(TAG, "Got into Recipe Browse:  List is: " + list.toString());
-       // ViewGroup group = (ViewGroup)getLayoutInflater().inflate(R.id.relLayout);
+        // if we came from the main screen, get it's intent
+        if (list == null) {
+            list = (ArrayList<String>) intent.getSerializableExtra(EXTRA_LIST);
+        }
+
+        // if we came from the previous screen, get the list from the bundle
+        // TODO(bryce): Figure out why this crashes the app, when going back from ReadingTxt
+        if (list == null) {
+            list = savedInstanceState.getStringArrayList(LIST_KEY);
+        }
+
+        Log.d(TAG, "Got into Recipe Browse:  List is: " + list.size() +" long");
+        // ViewGroup group = (ViewGroup)getLayoutInflater().inflate(R.id.relLayout);
         GridView gridView = (GridView)findViewById(R.id.gridView);
-        gridView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list));
+        gridView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, final View v, int position, long id){
                 try {
-                    lookAtRecipe(parent, v, position, id);
+                    lookAtRecipe(parent, v, position);
                 }
                 catch(IOException ex){
                     Log.d(TAG, ex.toString());
@@ -54,24 +60,17 @@ public class RecipeBrowse extends ActionBarActivity {
         });
     }
 
+    protected void onResume(){
+        super.onResume();
+        Log.d(TAG, "Resumed Recipe Browse.  List is: " + list.size() + " long");
+        //Don't recreate.
+    }
 
-
-//File blah = new File("/.../...");
-//Intent i = new Intent();
-//i.setDataAndType(Uri.fromFile(blah), "text/plain");
-//startActivity(i);
-    public void lookAtRecipe(AdapterView<?> parent, View v, int position, long id)throws IOException {
-        Log.d(TAG, "Trying to look at recipe:  "+ parent.getItemAtPosition(position));
-        String ret = (String)parent.getItemAtPosition(position);
-        //ret = ret.replace(" ", "\\ ");
-        //Log.d(TAG, "Made the file rep of the recipe!: "+ blah.getAbsolutePath().toString());
+    public void lookAtRecipe(AdapterView<?> parent, View v, int position)throws IOException {
+        String requestedRecipe = (String) parent.getItemAtPosition(position);
+        Log.d(TAG, "Trying to look at recipe:  "+ requestedRecipe);
         Intent i= new Intent(this, ReadingTxtFile.class);
-     //   i.setDataAndType(Uri.fromFile(blah), "text/plain")
-     //   String test = this.getAssets().list("")[3];
-     //   File the= new File(test);
-      //  for(File item: the.listFiles())
-      //      Log.d(TAG, item.toString());
-        i.putExtra("BOOK",ret);
+        i.putExtra(EXTRA_BOOK, requestedRecipe);
         startActivity(i);
     }
 
@@ -97,4 +96,10 @@ public class RecipeBrowse extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // save the list
+        savedInstanceState.putStringArrayList(LIST_KEY, list);
+    }
 }

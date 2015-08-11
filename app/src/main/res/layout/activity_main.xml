@@ -45,7 +45,10 @@
         android:layout_marginLeft="10dp"
         android:layout_alignRight="@+id/dairyButton"
         android:layout_alignEnd="@+id/dairyButton" />
-        <!-- "spices in an Indian market" by judepics - http://www.flickr.com/photos/judepics/409841087/. Licensed under CC BY 2.0 via Wikimedia Commons - https://commons.wikimedia.org/wiki/File:spices.jpg#mediaviewer/File:spices.jpg-->
+        <!-- "spices in an Indian market" by judepics -
+            http://www.flickr.com/photos/judepics/409841087/.
+            Licensed under CC BY 2.0 via Wikimedia Commons -
+            https://commons.wikimedia.org/wiki/File:spices.jpg#mediaviewer/File:spices.jpg-->
 
     <Button
         android:layout_width="@dimen/groupButtonWid"

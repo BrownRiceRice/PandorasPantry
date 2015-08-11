@@ -45,10 +45,10 @@
         <activity
             android:name=".ReadingTxtFile"
             android:label="@string/title_activity_reading_txt_file"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".RecipeBrowse" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.whatisthis.bryceandfriends.pandoraspantry.MainActivity" />
+                android:value="com.whatisthis.bryceandfriends.pandoraspantry.RecipeBrowse" />
         </activity>
     </application>
 
